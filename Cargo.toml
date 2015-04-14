@@ -1,0 +1,4 @@
+[package]
+name = "piston-test"
+version = "0.0.1"
+authors = ["Tinco Andringa <mail@tinco.nl>"]
