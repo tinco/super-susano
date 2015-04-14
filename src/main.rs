@@ -49,8 +49,8 @@ fn main() {
     // Create an SDL window.
     let window = Window::new(
         opengl,
-        WindowSettings::new("spinning-square".to_string(),
-                            Size { width: 200, height: 200 })
+        WindowSettings::new("Super Susano".to_string(),
+                            Size { width: 800, height: 400 })
                            .exit_on_esc(true)
     );
 
