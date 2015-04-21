@@ -1,5 +1,5 @@
 [package]
-name = "piston-test"
+name = "super-susano"
 version = "0.0.1"
 authors = [
 	"Tinco Andringa <mail@tinco.nl>",
@@ -7,7 +7,7 @@ authors = [
 ]
 
 [[bin]]
-name = "piston-test"
+name = "super-susano"
 
 [dependencies.piston]
 git = "https://github.com/PistonDevelopers/piston.git"
