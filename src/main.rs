@@ -11,7 +11,7 @@ use piston::event::*;
 use sdl2_window::Sdl2Window as Window;
 use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
-use components::banaan_rectangle::BanaanRectangle;
+use components::entity::Entity;
 
 fn main() {
 	let opengl = OpenGL::_3_1;
@@ -28,19 +28,19 @@ fn main() {
 	const YELLOW:[f32; 4] = [1.0, 1.0, 0.0, 1.0];
 
 	let mut rectangles = vec![
-		BanaanRectangle {
+		Entity {
 			color: YELLOW,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [-100.0,0.0],
 			rotation: 0.0
 		},
-		BanaanRectangle {
+		Entity {
 			color: BLUE,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [0.0,0.0],
 			rotation: 0.0
 		},
-		BanaanRectangle {
+		Entity {
 			color: RED,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [100.0,0.0],
@@ -51,6 +51,7 @@ fn main() {
 
 	let mut graphics_engine = engines::graphics::Graphics::new(opengl);
 	let mut movement_engine = engines::movement::Movement::new();
+	let mut input_engine = engines::input::Input::new();
 
 	for e in window.events() {
 		if let Some(r) = e.render_args() {
@@ -58,7 +59,16 @@ fn main() {
 		}
 
 		if let Some(u) = e.update_args() {
-			movement_engine.update(&u, &mut rectangles);
+			movement_engine.update(&u, &mut rectangles, &input_engine);
+			input_engine.update();			
+		}
+
+		if let Some(p) = e.press_args() {
+			input_engine.pressed(p);
+		}
+
+		if let Some(p) = e.release_args() {
+			input_engine.released(p);
 		}
 	}
 

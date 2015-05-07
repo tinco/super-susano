@@ -1,14 +1,14 @@
 use piston::event::*;
 use opengl_graphics::{ GlGraphics, OpenGL };
 
-use components::banaan_rectangle::BanaanRectangle;
+use components::entity::Entity;
 
 pub struct Graphics {
 	gl: GlGraphics // OpenGL drawing backend.
 }
 
 impl Graphics {
-	pub fn render(&mut self, args: &RenderArgs, rectangles:&Vec<BanaanRectangle>) {
+	pub fn render(&mut self, args: &RenderArgs, rectangles:&Vec<Entity>) {
 		use graphics::*;
 
 		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];

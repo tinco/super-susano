@@ -1,1 +1,1 @@
-pub mod banaan_rectangle;
+pub mod entity;
