@@ -20,9 +20,20 @@ impl Movement {
 			banaan.rotation += 2.0 * args.dt;
 		}
 
-		let keyW = Keyboard(Key::W);
-		if (inputstate.pressed_buttons.contains(&keyW)) {
-			rectangles[0].position[0] += 10.0;
+		if (inputstate.held_buttons.contains(&Keyboard(Key::W))) {
+			rectangles[0].position[1] -= 100.0 * args.dt;
+		}
+
+		if (inputstate.held_buttons.contains(&Keyboard(Key::S))) {
+			rectangles[0].position[1] += 100.0 * args.dt;
+		}
+
+		if (inputstate.held_buttons.contains(&Keyboard(Key::A))) {
+			rectangles[0].position[0] -= 100.0 * args.dt;
+		}
+
+		if (inputstate.held_buttons.contains(&Keyboard(Key::D))) {
+			rectangles[0].position[0] += 100.0 * args.dt;
 		}
 	}
 
