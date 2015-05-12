@@ -2,6 +2,8 @@ extern crate piston;
 extern crate graphics;
 extern crate sdl2_window;
 extern crate opengl_graphics;
+extern crate image;
+extern crate gl;
 
 pub mod engines;
 pub mod components;
@@ -14,7 +16,7 @@ use graphics as PistonGraphics;
 use components::entity::Entity;
 
 fn main() {
-	let opengl = OpenGL::_3_1;
+	let opengl = OpenGL::_3_3;
 	let window_settings = WindowSettings::new(
 		"Super Susano".to_string(),
 		Size { width: 800, height: 400 }

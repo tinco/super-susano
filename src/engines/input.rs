@@ -1,4 +1,3 @@
-use components::entity::Entity;
 use piston::input;
 
 pub struct Input {
