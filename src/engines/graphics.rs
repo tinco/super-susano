@@ -11,6 +11,7 @@ use std::fs::File;
 
 use image::GenericImage;
 
+use assets::{bitmaps_path, shaders_path};
 use components::entity::Entity;
 
 pub struct Graphics {
@@ -52,11 +53,11 @@ impl Graphics {
 
 	pub fn new(opengl: OpenGL) -> Graphics {
 		// Create a new game and run it.
-		let ryu = Texture::from_path(Path::new("../bitmaps/ryu.png")).unwrap();
+		let ryu = Texture::from_path((bitmaps_path().join("ryu.png")).as_path()).unwrap();
 	    let image = Image::new().rect(square(0.0, 0.0, 200.0));
 
 		let mut vertex_shader_source = String::new();
-		File::open("../shaders/animation/vertex.glsl").unwrap().read_to_string(&mut vertex_shader_source).unwrap();
+		File::open(shaders_path().join("animation").join("vertex.glsl")).unwrap().read_to_string(&mut vertex_shader_source).unwrap();
 
 	    let animation_shader = compile_shader(gl::VERTEX_SHADER, &vertex_shader_source).unwrap();
 

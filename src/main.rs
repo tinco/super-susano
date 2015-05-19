@@ -7,6 +7,7 @@ extern crate gl;
 
 pub mod engines;
 pub mod components;
+pub mod assets;
 
 use piston::window::{ WindowSettings, Size };
 use piston::event::*;

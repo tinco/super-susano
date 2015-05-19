@@ -5,6 +5,7 @@ authors = [
 	"Tinco Andringa <mail@tinco.nl>",
 	"Gijsbert dos Santos<gijsbert26@gmail.com>"
 ]
+build = "build.rs"
 
 [[bin]]
 name = "super-susano"
