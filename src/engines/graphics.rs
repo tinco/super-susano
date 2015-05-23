@@ -53,11 +53,14 @@ impl Graphics {
 
 	pub fn new(opengl: OpenGL) -> Graphics {
 		// Create a new game and run it.
-		let ryu = Texture::from_path(asset_path("bitmaps/ryu.png").as_path()).unwrap();
+		let path = asset_path("bitmaps/ryu.png");
+		let ryu = Texture::from_path(path.as_path()).unwrap();
 	    let image = Image::new().rect(square(0.0, 0.0, 200.0));
 
 		let mut vertex_shader_source = String::new();
-		File::open(asset_path("animation/vertex.glsl")).unwrap().read_to_string(&mut vertex_shader_source).unwrap();
+
+		let path = asset_path("shaders/animation/vertex.glsl");
+		File::open(path).unwrap().read_to_string(&mut vertex_shader_source).unwrap();
 
 	    let animation_shader = compile_shader(gl::VERTEX_SHADER, &vertex_shader_source).unwrap();
 
