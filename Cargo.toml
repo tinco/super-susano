@@ -10,21 +10,20 @@ build = "build.rs"
 [[bin]]
 name = "super-susano"
 
-[dependencies.piston]
-git = "https://github.com/PistonDevelopers/piston.git"
-
-[dependencies.piston2d-graphics]
-git = "https://github.com/PistonDevelopers/graphics.git"
-
-[dependencies.pistoncore-sdl2_window]
-git = "https://github.com/PistonDevelopers/sdl2_window.git"
-
-[dependencies.piston2d-opengl_graphics]
-git = "https://github.com/PistonDevelopers/opengl_graphics.git"
 
 [dependencies]
 image = "*"
 
+piston = "0.2.0"
+piston_window = "0.3.0"
+piston2d-graphics = "0.1.4"
+pistoncore-glutin_window = "0.2.0"
+piston2d-opengl_graphics = "0.1.0"
+piston2d-sprite = "0.1.0"
+piston-texture = "0.1.0"
+
+[dependencies.pistoncore-sdl2_window]
+git = "https://github.com/PistonDevelopers/sdl2_game_window"
+
 [dependencies.gl]
 git = "https://github.com/bjz/gl-rs"
-#version = "0.0.9"

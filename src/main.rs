@@ -4,6 +4,9 @@ extern crate sdl2_window;
 extern crate opengl_graphics;
 extern crate image;
 extern crate gl;
+extern crate sprite;
+extern crate texture;
+extern crate piston_window;
 
 pub mod engines;
 pub mod components;
@@ -11,6 +14,7 @@ pub mod assets;
 
 use piston::window::{ WindowSettings, Size };
 use piston::event::*;
+use piston_window::{ PistonWindow };
 use sdl2_window::Sdl2Window as Window;
 use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
@@ -24,7 +28,7 @@ fn main() {
 	).exit_on_esc(true);
 
 	// Create an SDL window.
-	let window = Window::new(opengl, window_settings);
+	let window: PistonWindow = window_settings.exit_on_esc(true).into();
 
 	const RED:   [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 	const BLUE:  [f32; 4] = [0.0, 0.0, 1.0, 1.0];
