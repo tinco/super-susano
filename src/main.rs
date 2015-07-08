@@ -15,7 +15,6 @@ pub mod assets;
 use piston::window::{ WindowSettings, Size };
 use piston::event::*;
 use piston_window::{ PistonWindow };
-use sdl2_window::Sdl2Window as Window;
 use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
 use components::entity::Entity;

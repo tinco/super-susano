@@ -1,6 +1,5 @@
 use std::env;
 use std::path::PathBuf;
-use std::path::Path;
 
 pub fn assets_path() -> PathBuf {
 	return env::current_exe().unwrap().parent().unwrap().join("assets");

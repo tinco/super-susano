@@ -1,17 +1,14 @@
 use piston::event::*;
 use opengl_graphics::{GlGraphics, OpenGL, Texture};
 use opengl_graphics::shader_utils::compile_shader;
-use graphics::{Image,ImageSize,rectangle,clear,default_draw_state};
+use graphics::{Image};
 use graphics::rectangle::square;
 use gl;
 
-use std::path::Path;
 use std::io::{Read};
 use std::fs::File;
-use std::rc::Rc;
 
 use image::GenericImage;
-use sprite::*;
 
 use assets::{asset_path};
 use components::entity::Entity;
