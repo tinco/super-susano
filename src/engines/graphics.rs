@@ -8,6 +8,7 @@ use gl;
 use std::path::Path;
 use std::io::{Read};
 use std::fs::File;
+use std::rc::Rc;
 
 use image::GenericImage;
 use sprite::*;
@@ -15,15 +16,14 @@ use sprite::*;
 use assets::{asset_path};
 use components::entity::Entity;
 
-pub struct Graphics<I: ImageSize> {
+pub struct Graphics {
 	gl: GlGraphics, // OpenGL drawing backend.
 	ryu: Texture,
 	image: Image,
 	animation_shader: gl::types::GLuint,
-	scene: Scene<I>
 }
 
-impl Graphics<Texture> {
+impl Graphics {
 	pub fn render(&mut self, args: &RenderArgs, rectangles:&Vec<Entity>) {
 		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
 		
@@ -32,7 +32,7 @@ impl Graphics<Texture> {
 		let gl = &mut self.gl;
 		let image = &self.image;
 		let ryu = &self.ryu;
-		let scene = &self.scene;
+
 		
 		gl.draw(args.viewport(), |c, gl| {
 			use graphics::*;
@@ -47,22 +47,17 @@ impl Graphics<Texture> {
 				c.transform
 					.trans(-25.0,-25.0);
 				
-				image.draw(ryu, default_draw_state(), c.transform, gl);
+				//image.draw(ryu, default_draw_state(), c.transform, gl);
 				rectangle(banaan.color, banaan.shape, banaan_transform, gl);
 			}
-
-			scene.draw(c.transform, gl);			
 		});
 	}
 
-	pub fn new(opengl: OpenGL) -> Graphics<Texture> {
+	pub fn new(opengl: OpenGL) -> Graphics {
 		// Create a new game and run it.
 		let path = asset_path("bitmaps/ryu/idle-1.png");
 		let ryu = Texture::from_path(path.as_path()).unwrap();
 		let image = Image::new().rect(square(0.0, 0.0, 200.0));
-		let mut scene = Scene::new();
-		//let mut sprite = Sprite::from_texture(ryu);
-		//scene.add_child(sprite);
 
 		let mut vertex_shader_source = String::new();
 
@@ -75,8 +70,7 @@ impl Graphics<Texture> {
 			gl: GlGraphics::new(opengl),
 			ryu: ryu,
 			image: image,
-			animation_shader: animation_shader,
-			scene: scene
+			animation_shader: animation_shader
 		};
 
 		return graphics;

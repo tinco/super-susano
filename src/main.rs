@@ -56,7 +56,7 @@ fn main() {
 	];
 
 
-	let mut graphics_engine: engines::graphics::Graphics<opengl_graphics::Texture> = engines::graphics::Graphics::new(opengl);
+	let mut graphics_engine = engines::graphics::Graphics::new(opengl);
 	let mut movement_engine = engines::movement::Movement::new();
 	let mut input_engine = engines::input::Input::new();
 
