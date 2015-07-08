@@ -18,9 +18,10 @@ use components::entity::Entity;
 
 pub struct Graphics {
 	gl: GlGraphics, // OpenGL drawing backend.
-	ryu: Texture,
+	ryu: Vec<Texture>,
 	image: Image,
 	animation_shader: gl::types::GLuint,
+	ryu_frame: i32
 }
 
 impl Graphics {
@@ -32,6 +33,12 @@ impl Graphics {
 		let gl = &mut self.gl;
 		let image = &self.image;
 		let ryu = &self.ryu;
+		let ryu_frame = &mut self.ryu_frame;
+		if *ryu_frame >= 3 {
+			*ryu_frame = 0;
+		} else {
+			*ryu_frame = *ryu_frame + 1;
+		}
 
 		
 		gl.draw(args.viewport(), |c, gl| {
@@ -47,7 +54,7 @@ impl Graphics {
 				c.transform
 					.trans(-25.0,-25.0);
 				
-				//image.draw(ryu, default_draw_state(), c.transform, gl);
+				image.draw(&ryu[*ryu_frame as usize], default_draw_state(), c.transform, gl);
 				rectangle(banaan.color, banaan.shape, banaan_transform, gl);
 			}
 		});
@@ -55,8 +62,12 @@ impl Graphics {
 
 	pub fn new(opengl: OpenGL) -> Graphics {
 		// Create a new game and run it.
-		let path = asset_path("bitmaps/ryu/idle-1.png");
-		let ryu = Texture::from_path(path.as_path()).unwrap();
+		let ryu_idle = vec![
+			Texture::from_path(asset_path("bitmaps/ryu/idle-1.png").as_path()).unwrap(),
+			Texture::from_path(asset_path("bitmaps/ryu/idle-2.png").as_path()).unwrap(),
+			Texture::from_path(asset_path("bitmaps/ryu/idle-3.png").as_path()).unwrap(),
+			Texture::from_path(asset_path("bitmaps/ryu/idle-4.png").as_path()).unwrap()
+		];
 		let image = Image::new().rect(square(0.0, 0.0, 200.0));
 
 		let mut vertex_shader_source = String::new();
@@ -68,7 +79,8 @@ impl Graphics {
 
 		let graphics = Graphics {
 			gl: GlGraphics::new(opengl),
-			ryu: ryu,
+			ryu: ryu_idle,
+			ryu_frame: 0,
 			image: image,
 			animation_shader: animation_shader
 		};
