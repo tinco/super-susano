@@ -66,8 +66,9 @@ fn main() {
 		}
 
 		if let Some(u) = e.update_args() {
+			input_engine.update();		
 			movement_engine.update(&u, &mut rectangles, &input_engine);
-			input_engine.update();			
+			graphics_engine.update(&u);	
 		}
 
 		if let Some(p) = e.press_args() {

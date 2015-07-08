@@ -18,13 +18,46 @@ use components::entity::Entity;
 
 pub struct Graphics {
 	gl: GlGraphics, // OpenGL drawing backend.
-	ryu: Vec<Texture>,
+	animated_sprite: AnimatedSprite,
 	image: Image,
-	animation_shader: gl::types::GLuint,
-	ryu_frame: i32
+	animation_shader: gl::types::GLuint
+}
+
+pub struct AnimatedSprite {
+	textures: Vec<Texture>,
+	frame: usize,
+	start_time: f64
+}
+
+impl AnimatedSprite {
+	pub fn new(textures: Vec<Texture>) -> AnimatedSprite {
+		return AnimatedSprite {
+			textures: textures,
+			frame: 0,
+			start_time: 0.0
+		};
+	}
+
+	pub fn update(&mut self, dt: f64) {
+		self.start_time = self.start_time + dt;
+
+		if self.start_time >= 0.1667 {
+			self.frame = (self.frame + 1) % self.textures.len();
+			self.start_time = self.start_time - 0.1667;
+		}
+	}
+
+	pub fn draw() {
+
+	}
 }
 
 impl Graphics {
+	pub fn update(&mut self, args: &UpdateArgs) {
+		let animation = &mut self.animated_sprite;
+		animation.update(args.dt);
+	}
+
 	pub fn render(&mut self, args: &RenderArgs, rectangles:&Vec<Entity>) {
 		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
 		
@@ -32,14 +65,7 @@ impl Graphics {
 
 		let gl = &mut self.gl;
 		let image = &self.image;
-		let ryu = &self.ryu;
-		let ryu_frame = &mut self.ryu_frame;
-		if *ryu_frame >= 3 {
-			*ryu_frame = 0;
-		} else {
-			*ryu_frame = *ryu_frame + 1;
-		}
-
+		let animated_sprite = &self.animated_sprite;
 		
 		gl.draw(args.viewport(), |c, gl| {
 			use graphics::*;
@@ -54,7 +80,7 @@ impl Graphics {
 				c.transform
 					.trans(-25.0,-25.0);
 				
-				image.draw(&ryu[*ryu_frame as usize], default_draw_state(), c.transform, gl);
+				image.draw(&animated_sprite.textures[animated_sprite.frame], default_draw_state(), c.transform, gl);
 				rectangle(banaan.color, banaan.shape, banaan_transform, gl);
 			}
 		});
@@ -79,8 +105,7 @@ impl Graphics {
 
 		let graphics = Graphics {
 			gl: GlGraphics::new(opengl),
-			ryu: ryu_idle,
-			ryu_frame: 0,
+			animated_sprite: AnimatedSprite::new(ryu_idle),
 			image: image,
 			animation_shader: animation_shader
 		};
