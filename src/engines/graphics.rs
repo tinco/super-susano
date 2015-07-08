@@ -23,7 +23,7 @@ pub struct Graphics<I: ImageSize> {
 	scene: Scene<I>
 }
 
-impl<I: ImageSize> Graphics<I> {
+impl Graphics<Texture> {
 	pub fn render(&mut self, args: &RenderArgs, rectangles:&Vec<Entity>) {
 		const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
 		
@@ -35,41 +35,41 @@ impl<I: ImageSize> Graphics<I> {
 		let scene = &self.scene;
 		
 		gl.draw(args.viewport(), |c, gl| {
+			use graphics::*;
+
 			// Clear the screen.
-			//clear(GREEN, gl);
-
+			clear(GREEN, gl);
 			for banaan in rectangles {
-				let banaan_transform = c.transform;
-
-				//	.trans(x, y)
-				//	.trans(banaan.position[0], banaan.position[1])
-				//	.rot_rad(banaan.rotation);
-				//	.trans(-25.0,-25.0);
+				let banaan_transform = c.transform
+					.trans(x, y)
+					.trans(banaan.position[0], banaan.position[1])
+					.rot_rad(banaan.rotation);
+				c.transform
+					.trans(-25.0,-25.0);
 				
-				//image.draw(ryu, default_draw_state(), c.transform, gl);
-				//rectangle(banaan.color, banaan.shape, banaan_transform, gl);
+				image.draw(ryu, default_draw_state(), c.transform, gl);
+				rectangle(banaan.color, banaan.shape, banaan_transform, gl);
 			}
 
-			//scene.draw(c.transform, gl);			
+			scene.draw(c.transform, gl);			
 		});
 	}
 
-	pub fn new(opengl: OpenGL) -> Graphics<I> {
+	pub fn new(opengl: OpenGL) -> Graphics<Texture> {
 		// Create a new game and run it.
 		let path = asset_path("bitmaps/ryu/idle-1.png");
 		let ryu = Texture::from_path(path.as_path()).unwrap();
-	    let image = Image::new().rect(square(0.0, 0.0, 200.0));
-
-	    let mut scene = Scene::new();
-	    //let mut sprite = Sprite::from_texture(ryu);
-	    //scene.add_child(sprite);
+		let image = Image::new().rect(square(0.0, 0.0, 200.0));
+		let mut scene = Scene::new();
+		//let mut sprite = Sprite::from_texture(ryu);
+		//scene.add_child(sprite);
 
 		let mut vertex_shader_source = String::new();
 
 		let path = asset_path("shaders/animation/vertex.glsl");
 		File::open(path).unwrap().read_to_string(&mut vertex_shader_source).unwrap();
 
-	    let animation_shader = compile_shader(gl::VERTEX_SHADER, &vertex_shader_source).unwrap();
+		let animation_shader = compile_shader(gl::VERTEX_SHADER, &vertex_shader_source).unwrap();
 
 		let graphics = Graphics {
 			gl: GlGraphics::new(opengl),
