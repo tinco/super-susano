@@ -11,7 +11,7 @@ use std::fs::File;
 use image::GenericImage;
 
 use assets::{asset_path};
-use components::entity::{Entity};
+use components::entity::{Entity,Direction};
 use components::character_graphics::{CharacterGraphics};
 
 pub struct Graphics {
@@ -45,7 +45,11 @@ impl Graphics {
 				
 				if let Some(ref character_graphics) = banaan.character_graphics {
 					let ref animation = character_graphics.idle_animation;
-					animation.image.draw(&animation.textures[animation.frame], default_draw_state(), c.transform, gl);
+					let transform = c.transform
+						.trans(x, y)
+						.trans(banaan.position[0], banaan.position[1])
+						.scale(if banaan.direction == Direction::Right { 1.0 } else { -1.0 },1.0);
+					animation.image.draw(&animation.textures[animation.frame], default_draw_state(), transform, gl);
 				} else {
 					let banaan_transform = c.transform
 						.trans(x, y)

@@ -17,7 +17,7 @@ use piston::event::*;
 use piston_window::{ PistonWindow };
 use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
-use components::entity::Entity;
+use components::entity::{Entity,Direction};
 use components::character_graphics::CharacterGraphics;
 use components::character_graphics::AnimatedSprite;
 use assets::{asset_path};
@@ -45,7 +45,7 @@ fn main() {
 	];
 
 	let mut rectangles = vec![
-		Entity {
+		/*Entity {
 			color: YELLOW,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [-100.0,0.0],
@@ -65,12 +65,13 @@ fn main() {
 			position: [100.0,0.0],
 			rotation: 0.0,
 			character_graphics: None
-		},
+		},*/
 		Entity {
 			color: RED,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [-200.0,0.0],
 			rotation: 0.0,
+			direction: Direction::Right,
 			character_graphics: Some (CharacterGraphics {
 				idle_animation: AnimatedSprite::new(ryu_idle)
 			})
