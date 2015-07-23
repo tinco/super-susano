@@ -18,6 +18,10 @@ use piston_window::{ PistonWindow };
 use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
 use components::entity::Entity;
+use components::character_graphics::CharacterGraphics;
+use components::character_graphics::AnimatedSprite;
+use assets::{asset_path};
+use opengl_graphics::{Texture};
 
 fn main() {
 	let opengl = OpenGL::_3_3;
@@ -33,25 +37,44 @@ fn main() {
 	const BLUE:  [f32; 4] = [0.0, 0.0, 1.0, 1.0];
 	const YELLOW:[f32; 4] = [1.0, 1.0, 0.0, 1.0];
 
+	let ryu_idle = vec![
+		Texture::from_path(asset_path("bitmaps/ryu/idle-1.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/idle-2.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/idle-3.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/idle-4.png").as_path()).unwrap()
+	];
+
 	let mut rectangles = vec![
 		Entity {
 			color: YELLOW,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [-100.0,0.0],
-			rotation: 0.0
+			rotation: 0.0,
+			character_graphics: None
 		},
 		Entity {
 			color: BLUE,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [0.0,0.0],
-			rotation: 0.0
+			rotation: 0.0,
+			character_graphics: None
 		},
 		Entity {
 			color: RED,
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [100.0,0.0],
-			rotation: 0.0
+			rotation: 0.0,
+			character_graphics: None
 		},
+		Entity {
+			color: RED,
+			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
+			position: [-200.0,0.0],
+			rotation: 0.0,
+			character_graphics: Some (CharacterGraphics {
+				idle_animation: AnimatedSprite::new(ryu_idle)
+			})
+		}
 	];
 
 
@@ -67,7 +90,7 @@ fn main() {
 		if let Some(u) = e.update_args() {
 			input_engine.update();		
 			movement_engine.update(&u, &mut rectangles, &input_engine);
-			graphics_engine.update(&u);	
+			graphics_engine.update(&u, &mut rectangles);	
 		}
 
 		if let Some(p) = e.press_args() {
