@@ -39,9 +39,10 @@ impl Graphics {
 				
 				if let Some(ref character_graphics) = banaan.character_graphics {
 					let ref animation = character_graphics.idle_animation;
+					let half_width = animation.width / 2.0;
 					let flipped = banaan.direction == Direction::Left;
 					let transform = c.transform
-						.trans(x, y)
+						.trans(if flipped { x + half_width } else { x - half_width }, y)
 						.trans(banaan.position[0], banaan.position[1])
 						.scale(if flipped { - 1.0 } else { 1.0 },1.0);
 					animation.image.draw(&animation.textures[animation.frame], default_draw_state(), transform, gl);
