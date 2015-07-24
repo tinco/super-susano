@@ -33,9 +33,11 @@ fn main() {
 	// Create an SDL window.
 	let window: PistonWindow = window_settings.exit_on_esc(true).into();
 
+	/*
 	const RED:   [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 	const BLUE:  [f32; 4] = [0.0, 0.0, 1.0, 1.0];
 	const YELLOW:[f32; 4] = [1.0, 1.0, 0.0, 1.0];
+	*/
 
 	let ryu_idle = vec![
 		Texture::from_path(asset_path("bitmaps/ryu/idle-1.png").as_path()).unwrap(),
@@ -67,7 +69,7 @@ fn main() {
 			character_graphics: None
 		},*/
 		Entity {
-			color: RED,
+			color: [1.0, 0.0, 0.0, 1.0],
 			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
 			position: [-200.0,0.0],
 			rotation: 0.0,

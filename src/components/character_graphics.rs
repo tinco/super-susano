@@ -1,7 +1,6 @@
 use graphics::{Image, types, ImageSize};
 use graphics::math::Scalar;
 use opengl_graphics::{Texture};
-use assets::{asset_path};
 
 pub struct CharacterGraphics {
 	pub idle_animation: AnimatedSprite
