@@ -1,6 +1,7 @@
 use piston::event::*;
 
 use components::entity::{Entity,Direction};
+use components::character_graphics::{AnimationIndex};
 use engines::input::Input;
 
 use piston::input::Button::*;
@@ -39,6 +40,14 @@ impl Movement {
 		if inputstate.held_buttons.contains(&Keyboard(Key::D)) {
 			controlled.position[0] += 100.0 * args.dt;
 			controlled.direction = Direction::Right;
+		}
+
+		if let Some(ref mut character_graphics) = controlled.character_graphics {
+			if inputstate.held_buttons.contains(&Keyboard(Key::F)) {
+				character_graphics.active_animation_index = AnimationIndex::Punch;
+			} else {
+				character_graphics.active_animation_index = AnimationIndex::Idle;
+			}
 		}
 	}
 
