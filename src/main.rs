@@ -46,6 +46,14 @@ fn main() {
 		Texture::from_path(asset_path("bitmaps/ryu/idle-4.png").as_path()).unwrap()
 	];
 
+	let ryu_punch = vec![
+		Texture::from_path(asset_path("bitmaps/ryu/punch-1.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/punch-2.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/punch-3.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/punch-4.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/punch-5.png").as_path()).unwrap()
+	];
+
 	let mut rectangles = vec![
 		/*Entity {
 			color: YELLOW,
@@ -74,9 +82,12 @@ fn main() {
 			position: [-200.0,0.0],
 			rotation: 0.0,
 			direction: Direction::Right,
-			character_graphics: Some (CharacterGraphics {
-				idle_animation: AnimatedSprite::new(ryu_idle)
-			})
+			character_graphics: Some (CharacterGraphics::new(
+				vec![
+					AnimatedSprite::new(ryu_idle),
+					AnimatedSprite::new(ryu_punch)
+				]
+			))
 		}
 	];
 

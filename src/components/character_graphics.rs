@@ -2,8 +2,34 @@ use graphics::{Image, types, ImageSize};
 use graphics::math::Scalar;
 use opengl_graphics::{Texture};
 
+#[derive(Copy, Clone)]
+pub enum AnimationIndex {
+	Idle = 0,
+	Punch = 1
+}
+
 pub struct CharacterGraphics {
-	pub idle_animation: AnimatedSprite
+	pub animations: Vec<AnimatedSprite>,
+	pub active_animation_index: AnimationIndex
+}
+
+impl CharacterGraphics {
+	pub fn new(animations: Vec<AnimatedSprite>) -> CharacterGraphics {
+		return CharacterGraphics {
+			animations: animations,
+			active_animation_index: AnimationIndex::Idle
+		};
+	}
+
+	pub fn active_animation(&self) -> &AnimatedSprite {
+		let index = self.active_animation_index as usize;
+		return &self.animations[index];
+	}
+
+	pub fn active_animation_mut(&mut self) -> &mut AnimatedSprite {
+		let index = self.active_animation_index as usize;
+		return &mut self.animations[index];
+	}
 }
 
 pub struct AnimatedSprite {
@@ -23,6 +49,7 @@ impl AnimatedSprite {
 	pub fn new(textures: Vec<Texture>) -> AnimatedSprite {
 		let (width, height) = textures[0].get_size();
 		let image = Image::new().rect(rect(0.0,0.0, width as f64, height as f64));
+		
 		return AnimatedSprite {
 			textures: textures,
 			frame: 0,

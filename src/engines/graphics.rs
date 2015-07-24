@@ -17,7 +17,7 @@ impl Graphics {
 	pub fn update(&mut self, args: &UpdateArgs, entities:&mut Vec<Entity>) {
 		for entity in entities.iter_mut() {
 			if let Some(ref mut character_graphics) = entity.character_graphics {
-				let animation = &mut character_graphics.idle_animation;
+				let animation = character_graphics.active_animation_mut();
 				animation.update(args.dt);
 			}
 		}
@@ -38,7 +38,7 @@ impl Graphics {
 			for banaan in rectangles {
 				
 				if let Some(ref character_graphics) = banaan.character_graphics {
-					let ref animation = character_graphics.idle_animation;
+					let ref animation = character_graphics.active_animation();
 					let half_width = animation.width / 2.0;
 					let flipped = banaan.direction == Direction::Left;
 					let transform = c.transform
