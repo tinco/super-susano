@@ -12,9 +12,8 @@ pub mod engines;
 pub mod components;
 pub mod assets;
 
-use piston::window::{ WindowSettings, Size };
-use piston::event::*;
-use piston_window::{ PistonWindow };
+use piston_window::{ PistonWindow, WindowSettings, Size };
+
 use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
 use components::entity::{Entity,Direction};
@@ -24,7 +23,6 @@ use assets::{asset_path};
 use opengl_graphics::{Texture};
 
 fn main() {
-	let opengl = OpenGL::_3_3;
 	let window_settings = WindowSettings::new(
 		"Super Susano".to_string(),
 		Size { width: 800, height: 400 }
@@ -92,11 +90,12 @@ fn main() {
 	];
 
 
+	let opengl = OpenGL::V3_3;
 	let mut graphics_engine = engines::graphics::Graphics::new(opengl);
 	let mut movement_engine = engines::movement::Movement::new();
 	let mut input_engine = engines::input::Input::new();
 
-	for e in window.events() {
+	for e in window {
 		if let Some(r) = e.render_args() {
 			graphics_engine.render(&r, &rectangles);
 		}

@@ -1,4 +1,4 @@
-use piston::event::*;
+use piston::input::{RenderArgs,UpdateArgs};
 use opengl_graphics::{GlGraphics, OpenGL};
 use image::GenericImage;
 use components::entity::{Entity,Direction};

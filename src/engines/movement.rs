@@ -1,5 +1,4 @@
-use piston::event::*;
-
+use piston::input::UpdateArgs;
 use components::entity::{Entity,Direction};
 use components::character_graphics::{AnimationIndex};
 use engines::input::Input;
