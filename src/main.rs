@@ -15,13 +15,11 @@ pub mod assets;
 use piston::input::*;
 use piston_window::{ PistonWindow, WindowSettings, Size };
 
-use opengl_graphics::OpenGL;
 use graphics as PistonGraphics;
 use components::entity::{Entity,Direction};
-use components::character_graphics::CharacterGraphics;
-use components::character_graphics::AnimatedSprite;
+use components::character_graphics::{CharacterGraphics,AnimatedSprite};
 use assets::{asset_path};
-use opengl_graphics::{Texture};
+use opengl_graphics::{OpenGL, Texture};
 
 fn main() {
 	let window_settings = WindowSettings::new(
@@ -102,9 +100,9 @@ fn main() {
 		}
 
 		if let Some(u) = e.update_args() {
-			input_engine.update();		
+			input_engine.update();
 			movement_engine.update(&u, &mut rectangles, &input_engine);
-			graphics_engine.update(&u, &mut rectangles);	
+			graphics_engine.update(&u, &mut rectangles);
 		}
 
 		if let Some(p) = e.press_args() {

@@ -21,6 +21,15 @@ impl CharacterGraphics {
 		};
 	}
 
+	pub fn update(&mut self, dt: f64) {
+		self.active_animation_mut().update(dt);
+	}
+
+	pub fn start_animation(&mut self, index: AnimationIndex) {
+		self.active_animation_index = index;
+		self.active_animation_mut().start();
+	}
+
 	pub fn active_animation(&self) -> &AnimatedSprite {
 		let index = self.active_animation_index as usize;
 		return &self.animations[index];
@@ -49,7 +58,7 @@ impl AnimatedSprite {
 	pub fn new(textures: Vec<Texture>) -> AnimatedSprite {
 		let (width, height) = textures[0].get_size();
 		let image = Image::new().rect(rect(0.0,0.0, width as f64, height as f64));
-		
+
 		return AnimatedSprite {
 			textures: textures,
 			frame: 0,
@@ -67,6 +76,11 @@ impl AnimatedSprite {
 			self.frame = (self.frame + 1) % self.textures.len();
 			self.start_time = self.start_time - 0.1667;
 		}
+	}
+
+	pub fn start(&mut self) {
+		self.start_time = 0.0;
+		self.frame = 0;
 	}
 
 	pub fn draw() {

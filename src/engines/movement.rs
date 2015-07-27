@@ -10,8 +10,8 @@ pub struct Movement;
 
 impl Movement {
 	pub fn update(
-		&mut self, 
-		args: &UpdateArgs, 
+		&mut self,
+		args: &UpdateArgs,
 		rectangles: &mut Vec<Entity>,
 		inputstate: &Input
 	) {
@@ -42,10 +42,8 @@ impl Movement {
 		}
 
 		if let Some(ref mut character_graphics) = controlled.character_graphics {
-			if inputstate.held_buttons.contains(&Keyboard(Key::F)) {
-				character_graphics.active_animation_index = AnimationIndex::Punch;
-			} else {
-				character_graphics.active_animation_index = AnimationIndex::Idle;
+			if inputstate.pressed_buttons.contains(&Keyboard(Key::F)) {
+				character_graphics.start_animation(AnimationIndex::Punch);
 			}
 		}
 	}
