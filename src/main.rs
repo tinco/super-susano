@@ -12,6 +12,7 @@ pub mod engines;
 pub mod components;
 pub mod assets;
 
+use piston::input::*;
 use piston_window::{ PistonWindow, WindowSettings, Size };
 
 use opengl_graphics::OpenGL;
