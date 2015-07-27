@@ -9,6 +9,7 @@ pub enum AnimationIndex {
 }
 
 pub struct CharacterGraphics {
+	pub width: f64,
 	pub animations: Vec<AnimatedSprite>,
 	pub active_animation_index: AnimationIndex
 }
@@ -16,6 +17,7 @@ pub struct CharacterGraphics {
 impl CharacterGraphics {
 	pub fn new(animations: Vec<AnimatedSprite>) -> CharacterGraphics {
 		return CharacterGraphics {
+			width: animations[0].width,
 			animations: animations,
 			active_animation_index: AnimationIndex::Idle
 		};

@@ -32,7 +32,7 @@ impl Graphics {
 
 				if let Some(ref character_graphics) = entity.character_graphics {
 					let ref animation = character_graphics.active_animation();
-					let half_width = animation.width / 2.0;
+					let half_width = character_graphics.width / 2.0;
 					let flipped = entity.direction == Direction::Left;
 					let transform = c.transform
 						.trans(if flipped { x + half_width } else { x - half_width }, y)
