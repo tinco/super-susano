@@ -22,7 +22,18 @@ impl CharacterGraphics {
 	}
 
 	pub fn update(&mut self, dt: f64) {
-		self.active_animation_mut().update(dt);
+		let mut start_idle = false;
+		{
+			let animation = self.active_animation_mut();
+			animation.update(dt);
+			if animation.frame >= animation.textures.len() {
+				start_idle = true;
+			}
+		}
+
+		if start_idle {
+			self.start_animation(AnimationIndex::Idle);
+		}
 	}
 
 	pub fn start_animation(&mut self, index: AnimationIndex) {
@@ -73,7 +84,7 @@ impl AnimatedSprite {
 		self.start_time = self.start_time + dt;
 
 		if self.start_time >= 0.1667 {
-			self.frame = (self.frame + 1) % self.textures.len();
+			self.frame = self.frame + 1;
 			self.start_time = self.start_time - 0.1667;
 		}
 	}
