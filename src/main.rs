@@ -81,8 +81,8 @@ fn main() {
 			direction: Direction::Right,
 			character_graphics: Some (CharacterGraphics::new(
 				vec![
-					AnimatedSprite::new(ryu_idle),
-					AnimatedSprite::new(ryu_punch)
+					AnimatedSprite::new(ryu_idle, 0.1667),
+					AnimatedSprite::new(ryu_punch, 0.1)
 				]
 			))
 		}

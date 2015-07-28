@@ -24,13 +24,11 @@ impl CharacterGraphics {
 	}
 
 	pub fn update(&mut self, dt: f64) {
-		let mut start_idle = false;
+		let start_idle;
 		{
 			let animation = self.active_animation_mut();
 			animation.update(dt);
-			if animation.frame >= animation.textures.len() {
-				start_idle = true;
-			}
+			start_idle = animation.done;
 		}
 
 		if start_idle {
@@ -60,6 +58,9 @@ pub struct AnimatedSprite {
 	pub start_time: f64,
 	pub width: f64,
 	pub height: f64,
+	pub speed: f64,
+	pub reverse: bool,
+	pub done: bool,
 	pub image: Image
 }
 
@@ -68,7 +69,7 @@ fn rect(x: Scalar,y: Scalar,h: Scalar,w: Scalar) -> types::Rectangle {
 }
 
 impl AnimatedSprite {
-	pub fn new(textures: Vec<Texture>) -> AnimatedSprite {
+	pub fn new(textures: Vec<Texture>, speed: f64) -> AnimatedSprite {
 		let (width, height) = textures[0].get_size();
 		let image = Image::new().rect(rect(0.0,0.0, width as f64, height as f64));
 
@@ -78,6 +79,9 @@ impl AnimatedSprite {
 			start_time: 0.0,
 			width: width as f64,
 			height: height as f64,
+			speed: speed,
+			reverse: false,
+			done: false,
 			image: image
 		};
 	}
@@ -85,15 +89,20 @@ impl AnimatedSprite {
 	pub fn update(&mut self, dt: f64) {
 		self.start_time = self.start_time + dt;
 
-		if self.start_time >= 0.1667 {
+		if self.start_time >= self.speed {
 			self.frame = self.frame + 1;
-			self.start_time = self.start_time - 0.1667;
+			self.start_time = self.start_time - self.speed;
+		}
+
+		if self.frame >= self.textures.len() {
+			self.done = true;
 		}
 	}
 
 	pub fn start(&mut self) {
 		self.start_time = 0.0;
 		self.frame = 0;
+		self.done = false;
 	}
 
 	pub fn draw() {
