@@ -42,7 +42,7 @@ impl Movement {
 		}
 
 		if let Some(ref mut character_graphics) = controlled.character_graphics {
-			if inputstate.pressed_buttons.contains(&Keyboard(Key::F)) {
+			if inputstate.is_pressed(Keyboard(Key::F)) {
 				character_graphics.start_animation(AnimationIndex::Punch);
 			}
 		}
