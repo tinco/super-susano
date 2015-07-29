@@ -16,6 +16,8 @@ impl Movement {
 		inputstate: &Input
 	) {
 		let controlled_id = 0;
+		let original_position = entities[controlled_id].position;
+		
 		{
 			let ref mut controlled = entities[controlled_id];
 
@@ -39,6 +41,7 @@ impl Movement {
 		}
 
 
+		let mut collided = false;
 		{
 			let ref controlled = entities[controlled_id];
 
@@ -46,10 +49,16 @@ impl Movement {
 				if n != controlled_id {
 					let ref other_entity = entities[n];
 					if overlaps_with(controlled, other_entity) {
-						println!("Clash!");
+						collided = true;
+						break;
 					}
 				}
 			}
+		}
+
+		if (collided) {
+			let ref mut controlled = entities[controlled_id];
+			controlled.position = original_position;
 		}
 
 		{
