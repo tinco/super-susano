@@ -39,14 +39,6 @@ impl Graphics {
 						.trans(entity.position[0], entity.position[1])
 						.scale(if flipped { - 1.0 } else { 1.0 },1.0);
 					animation.image.draw(&animation.textures[animation.frame], default_draw_state(), transform, gl);
-				} else {
-					let rotating_transform = c.transform
-						.trans(x, y)
-						.trans(entity.position[0], entity.position[1])
-						.rot_rad(entity.rotation);
-					c.transform
-						.trans(-25.0,-25.0);
-					rectangle(entity.color, entity.shape, rotating_transform, gl);
 				}
 			}
 		});

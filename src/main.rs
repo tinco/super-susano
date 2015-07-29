@@ -15,8 +15,7 @@ pub mod assets;
 use piston::input::*;
 use piston_window::{ PistonWindow, WindowSettings, Size };
 
-use graphics as PistonGraphics;
-use components::entity::{Entity,Direction};
+use components::entity::{Entity,Direction, Boundary};
 use components::character_graphics::{CharacterGraphics,AnimatedSprite};
 use assets::{asset_path};
 use opengl_graphics::{OpenGL, Texture};
@@ -29,12 +28,6 @@ fn main() {
 
 	// Create an SDL window.
 	let window: PistonWindow = window_settings.exit_on_esc(true).into();
-
-	/*
-	const RED:   [f32; 4] = [1.0, 0.0, 0.0, 1.0];
-	const BLUE:  [f32; 4] = [0.0, 0.0, 1.0, 1.0];
-	const YELLOW:[f32; 4] = [1.0, 1.0, 0.0, 1.0];
-	*/
 
 	let ryu_idle = vec![
 		Texture::from_path(asset_path("bitmaps/ryu/idle-1.png").as_path()).unwrap(),
@@ -65,30 +58,8 @@ fn main() {
 	];
 
 	let mut rectangles = vec![
-		/*Entity {
-			color: YELLOW,
-			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
-			position: [-100.0,0.0],
-			rotation: 0.0,
-			character_graphics: None
-		},
 		Entity {
-			color: BLUE,
-			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
-			position: [0.0,0.0],
-			rotation: 0.0,
-			character_graphics: None
-		},
-		Entity {
-			color: RED,
-			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
-			position: [100.0,0.0],
-			rotation: 0.0,
-			character_graphics: None
-		},*/
-		Entity {
-			color: [1.0, 0.0, 0.0, 1.0],
-			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
+			id: 1,
 			position: [-200.0,0.0],
 			rotation: 0.0,
 			direction: Direction::Right,
@@ -97,11 +68,14 @@ fn main() {
 					AnimatedSprite::new(ryu_idle, 0.1667),
 					AnimatedSprite::new(ryu_punch, 0.1)
 				]
-			))
+			)),
+			physical_boundary: Some (Boundary::Rectangle {
+				width: 45.0,
+				height: 80.0
+			})
 		},
 		Entity {
-			color: [1.0, 0.0, 0.0, 1.0],
-			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
+			id: 2,
 			position: [200.0,0.0],
 			rotation: 0.0,
 			direction: Direction::Left,
@@ -110,7 +84,11 @@ fn main() {
 					AnimatedSprite::new(chun_idle, 0.1667),
 					AnimatedSprite::new(chun_punch, 0.1)
 				]
-			))
+			)),
+			physical_boundary: Some (Boundary::Rectangle {
+				width: 45.0,
+				height: 80.0
+			})
 		}
 	];
 

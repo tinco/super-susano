@@ -5,11 +5,22 @@ pub enum Direction {
 	Left, Right
 }
 
+#[derive(Copy, Clone)]
+pub enum Boundary {
+	Rectangle { height: f64, width: f64 }
+}
+
 pub struct Entity {
-	pub color: [f32; 4],
-	pub shape: [f64; 4],
+	pub id: i64,
 	pub position: [f64; 2],
 	pub rotation: f64,
 	pub direction: Direction,
-	pub character_graphics: Option<CharacterGraphics>
+	pub character_graphics: Option<CharacterGraphics>,
+	pub physical_boundary: Option<Boundary>
+}
+
+impl PartialEq for Entity {
+	fn eq(&self, other: &Entity) -> bool {
+		return self.id == other.id;
+	}
 }
