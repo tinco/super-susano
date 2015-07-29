@@ -51,6 +51,19 @@ fn main() {
 		Texture::from_path(asset_path("bitmaps/ryu/punch-5.png").as_path()).unwrap()
 	];
 
+	let chun_idle = vec![
+		Texture::from_path(asset_path("bitmaps/chun-li/idle-1.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/idle-2.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/idle-3.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/idle-4.png").as_path()).unwrap()
+	];
+
+	let chun_punch = vec![
+		Texture::from_path(asset_path("bitmaps/chun-li/punch-1.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/punch-2.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/punch-3.png").as_path()).unwrap()
+	];
+
 	let mut rectangles = vec![
 		/*Entity {
 			color: YELLOW,
@@ -83,6 +96,19 @@ fn main() {
 				vec![
 					AnimatedSprite::new(ryu_idle, 0.1667),
 					AnimatedSprite::new(ryu_punch, 0.1)
+				]
+			))
+		},
+		Entity {
+			color: [1.0, 0.0, 0.0, 1.0],
+			shape: PistonGraphics::rectangle::square(0.0, 0.0, 50.0),
+			position: [200.0,0.0],
+			rotation: 0.0,
+			direction: Direction::Left,
+			character_graphics: Some (CharacterGraphics::new(
+				vec![
+					AnimatedSprite::new(chun_idle, 0.1667),
+					AnimatedSprite::new(chun_punch, 0.1)
 				]
 			))
 		}
