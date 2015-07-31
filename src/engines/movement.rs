@@ -15,7 +15,7 @@ impl Movement {
 		entities: &mut Vec<Entity>,
 		inputstate: &Input
 	) {
-		let controlled_id = 0;
+		let controlled_id = 1;
 		let original_position = entities[controlled_id].position;
 		
 		{

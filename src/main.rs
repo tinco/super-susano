@@ -29,6 +29,10 @@ fn main() {
 	// Create an SDL window.
 	let window: PistonWindow = window_settings.exit_on_esc(true).into();
 
+	let stage_background = vec![
+		Texture::from_path(asset_path("bitmaps/background-1.jpg").as_path()).unwrap()
+	];
+
 	let ryu_idle = vec![
 		Texture::from_path(asset_path("bitmaps/ryu/idle-1.png").as_path()).unwrap(),
 		Texture::from_path(asset_path("bitmaps/ryu/idle-2.png").as_path()).unwrap(),
@@ -77,6 +81,18 @@ fn main() {
 	];
 
 	let mut rectangles = vec![
+		Entity {
+			id: 3,
+			position: [-0.0,-130.0],
+			rotation: 0.0,
+			direction: Direction::Left,
+			physical_boundary: None,
+			character_graphics: Some (CharacterGraphics::new(
+				vec![
+					AnimatedSprite::new(stage_background, 0.1667)
+				]
+			))
+		},
 		Entity {
 			id: 1,
 			position: [-200.0,0.0],

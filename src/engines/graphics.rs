@@ -17,7 +17,8 @@ impl Graphics {
 	}
 
 	pub fn render(&mut self, args: &RenderArgs, entities:&Vec<Entity>) {
-		const GREEN: [f32; 4] = [11.0/256.0, 178.0/256.0, 12.0/256.0, 1.0];
+		//const GREEN: [f32; 4] = [11.0/256.0, 178.0/256.0, 12.0/256.0, 1.0];
+		const BLACK: [f32; 4] = [0.0/256.0, 0.0/256.0, 0.0/256.0, 1.0];
 
 		let (x, y) = ((args.width / 2) as f64, (args.height / 2) as f64);
 
@@ -27,7 +28,7 @@ impl Graphics {
 			use graphics::*;
 
 			// Clear the screen.
-			clear(GREEN, gl);
+			clear(BLACK, gl);
 			for entity in entities {
 
 				if let Some(ref character_graphics) = entity.character_graphics {
