@@ -19,7 +19,7 @@ impl Movement {
 		let original_position = entities[controlled_id].position;
 		
 		{
-			let ref mut controlled = entities[controlled_id];
+			let controlled = &mut entities[controlled_id];
 			let mut walking = false;
 
 			for btn in &inputstate.held_buttons {
@@ -58,11 +58,11 @@ impl Movement {
 
 		let mut collided = false;
 		{
-			let ref controlled = entities[controlled_id];
+			let controlled = &entities[controlled_id];
 
 			for n in (0..entities.len()) {
 				if n != controlled_id {
-					let ref other_entity = entities[n];
+					let other_entity = &entities[n];
 					if overlaps_with(controlled, other_entity) {
 						collided = true;
 						break;
@@ -72,12 +72,12 @@ impl Movement {
 		}
 
 		if collided {
-			let ref mut controlled = entities[controlled_id];
+			let controlled = &mut entities[controlled_id];
 			controlled.position = original_position;
 		}
 
 		{
-			let ref mut  controlled = entities[controlled_id];
+			let controlled = &mut entities[controlled_id];
 			if let Some(ref mut character_graphics) = controlled.character_graphics {
 				if inputstate.is_pressed(Keyboard(Key::F)) {
 					character_graphics.start_animation(AnimationIndex::Punch);
