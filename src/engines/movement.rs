@@ -22,26 +22,28 @@ impl Movement {
 			let ref mut controlled = entities[controlled_id];
 			let mut walking = false;
 
-			if inputstate.held_buttons.contains(&Keyboard(Key::W)) {
-				controlled.position[1] -= 100.0 * args.dt;
-				walking = true;
-			}
-
-			if inputstate.held_buttons.contains(&Keyboard(Key::S)) {
-				controlled.position[1] += 100.0 * args.dt;
-				walking = true;
-			}
-
-			if inputstate.held_buttons.contains(&Keyboard(Key::A)) {
-				controlled.position[0] -= 100.0 * args.dt;
-				controlled.direction = Direction::Left;
-				walking = true;
-			}
-
-			if inputstate.held_buttons.contains(&Keyboard(Key::D)) {
-				controlled.position[0] += 100.0 * args.dt;
-				controlled.direction = Direction::Right;
-				walking = true;
+			for btn in &inputstate.held_buttons {
+				match btn {
+					&Keyboard(Key::W) => {
+						controlled.position[1] -= 100.0 * args.dt;
+						walking = true;
+					},
+					&Keyboard(Key::S) => {
+						controlled.position[1] += 100.0 * args.dt;
+						walking = true;
+					},
+					&Keyboard(Key::A) => {
+						controlled.position[0] -= 100.0 * args.dt;
+						controlled.direction = Direction::Left;
+						walking = true;		
+					},
+					&Keyboard(Key::D) => {
+						controlled.position[0] += 100.0 * args.dt;
+						controlled.direction = Direction::Right;
+						walking = true;		
+					},
+					_ => ()
+				}
 			}
 
 			if let Some(ref mut character_graphics) = controlled.character_graphics {
@@ -69,7 +71,7 @@ impl Movement {
 			}
 		}
 
-		if (collided) {
+		if collided {
 			let ref mut controlled = entities[controlled_id];
 			controlled.position = original_position;
 		}
