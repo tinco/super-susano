@@ -20,23 +20,36 @@ impl Movement {
 		
 		{
 			let ref mut controlled = entities[controlled_id];
+			let mut walking = false;
 
 			if inputstate.held_buttons.contains(&Keyboard(Key::W)) {
 				controlled.position[1] -= 100.0 * args.dt;
+				walking = true;
 			}
 
 			if inputstate.held_buttons.contains(&Keyboard(Key::S)) {
 				controlled.position[1] += 100.0 * args.dt;
+				walking = true;
 			}
 
 			if inputstate.held_buttons.contains(&Keyboard(Key::A)) {
 				controlled.position[0] -= 100.0 * args.dt;
 				controlled.direction = Direction::Left;
+				walking = true;
 			}
 
 			if inputstate.held_buttons.contains(&Keyboard(Key::D)) {
 				controlled.position[0] += 100.0 * args.dt;
 				controlled.direction = Direction::Right;
+				walking = true;
+			}
+
+			if let Some(ref mut character_graphics) = controlled.character_graphics {
+				if walking && (character_graphics.active_animation_index == AnimationIndex::Idle) {
+					character_graphics.start_animation(AnimationIndex::Walking);
+				} else if !walking && (character_graphics.active_animation_index == AnimationIndex::Walking) {
+					character_graphics.start_animation(AnimationIndex::Idle);
+				}
 			}
 		}
 

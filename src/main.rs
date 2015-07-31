@@ -44,6 +44,14 @@ fn main() {
 		Texture::from_path(asset_path("bitmaps/ryu/punch-5.png").as_path()).unwrap()
 	];
 
+	let ryu_walking = vec![
+		Texture::from_path(asset_path("bitmaps/ryu/walking-1.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/walking-2.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/walking-3.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/walking-4.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/ryu/walking-5.png").as_path()).unwrap()
+	];
+
 	let chun_idle = vec![
 		Texture::from_path(asset_path("bitmaps/chun-li/idle-1.png").as_path()).unwrap(),
 		Texture::from_path(asset_path("bitmaps/chun-li/idle-2.png").as_path()).unwrap(),
@@ -57,6 +65,17 @@ fn main() {
 		Texture::from_path(asset_path("bitmaps/chun-li/punch-3.png").as_path()).unwrap()
 	];
 
+	let chun_walking = vec![
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-1.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-2.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-3.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-4.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-5.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-6.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-7.png").as_path()).unwrap(),
+		Texture::from_path(asset_path("bitmaps/chun-li/walking-8.png").as_path()).unwrap()
+	];
+
 	let mut rectangles = vec![
 		Entity {
 			id: 1,
@@ -66,7 +85,8 @@ fn main() {
 			character_graphics: Some (CharacterGraphics::new(
 				vec![
 					AnimatedSprite::new(ryu_idle, 0.1667),
-					AnimatedSprite::new(ryu_punch, 0.1)
+					AnimatedSprite::new(ryu_punch, 0.1),
+					AnimatedSprite::new(ryu_walking, 0.1667)
 				]
 			)),
 			physical_boundary: Some (Boundary::Rectangle {
@@ -82,7 +102,8 @@ fn main() {
 			character_graphics: Some (CharacterGraphics::new(
 				vec![
 					AnimatedSprite::new(chun_idle, 0.1667),
-					AnimatedSprite::new(chun_punch, 0.1)
+					AnimatedSprite::new(chun_punch, 0.1),
+					AnimatedSprite::new(chun_walking, 0.1667)
 				]
 			)),
 			physical_boundary: Some (Boundary::Rectangle {

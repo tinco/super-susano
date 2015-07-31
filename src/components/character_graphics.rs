@@ -2,10 +2,11 @@ use graphics::{Image, types, ImageSize};
 use graphics::math::Scalar;
 use opengl_graphics::{Texture};
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone,PartialEq,Eq)]
 pub enum AnimationIndex {
 	Idle = 0,
-	Punch = 1
+	Punch = 1,
+	Walking = 2
 }
 
 pub struct CharacterGraphics {
