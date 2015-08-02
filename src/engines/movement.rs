@@ -17,7 +17,7 @@ impl Movement {
 	) {
 		let controlled_id = 0;
 		let original_position = entities[controlled_id].position;
-		
+
 		{
 			let ref mut controlled = entities[controlled_id];
 
@@ -40,29 +40,20 @@ impl Movement {
 			}
 		}
 
-
-		let mut collided = false;
 		{
-			let ref controlled = entities[controlled_id];
+			let ref mut controlled = entities[controlled_id];
 
-			for n in (0..entities.len()) {
-				if n != controlled_id {
-					let ref other_entity = entities[n];
-					if overlaps_with(controlled, other_entity) {
-						collided = true;
-						break;
-					}
-				}
+			let collided_entity = if let Some (boundary) = controlled.physical_boundary {
+					find_colliding_entity(controlled.position, boundary, entities)
+			} else { None };
+
+			if let Some (collided_entity) = collided_entity {
+				controlled.position = original_position;
 			}
 		}
 
-		if (collided) {
-			let ref mut controlled = entities[controlled_id];
-			controlled.position = original_position;
-		}
-
 		{
-			let ref mut  controlled = entities[controlled_id];
+			let ref mut controlled = entities[controlled_id];
 			if let Some(ref mut character_graphics) = controlled.character_graphics {
 				if inputstate.is_pressed(Keyboard(Key::F)) {
 					character_graphics.start_animation(AnimationIndex::Punch);
@@ -78,6 +69,17 @@ impl Movement {
 		return movement;
 	}
 }
+
+	fn find_colliding_entity<'a>(position: [f64; 2], boundary: Boundary, entities: &'a Vec<Entity>) -> Option<&'a Entity> {
+		for e in entities {
+			if let Some(other_boundary) = e.physical_boundary {
+				if boundaries_overlap(position, boundary, e.position, other_boundary) {
+					return Some(e);
+				}
+			}
+		}
+		return None;
+	}
 
 	fn overlaps_with(entity: &Entity, other_entity: &Entity) -> bool {
 		if let Some(boundary) = entity.physical_boundary {
@@ -118,6 +120,6 @@ impl Movement {
 					}
 				}
 			}
-		}		
+		}
 		return false;
 	}
