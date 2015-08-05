@@ -1,5 +1,12 @@
 use components::character_graphics::*;
 
+pub enum MovementType {
+	Hadouken,
+	PlayerCharacter,
+	NPCCharacter,
+	NoMovement
+}
+
 #[derive(PartialEq, Eq)]
 pub enum Direction {
 	Left, Right
@@ -16,7 +23,8 @@ pub struct Entity {
 	pub rotation: f64,
 	pub direction: Direction,
 	pub character_graphics: Option<CharacterGraphics>,
-	pub physical_boundary: Option<Boundary>
+	pub physical_boundary: Option<Boundary>,
+	pub movement_type: MovementType
 }
 
 impl PartialEq for Entity {

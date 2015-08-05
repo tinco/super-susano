@@ -1,5 +1,5 @@
 use piston::input::UpdateArgs;
-use components::entity::{Entity,Direction, Boundary};
+use components::entity::{Entity,Direction, Boundary, MovementType};
 use components::character_graphics::{AnimationIndex};
 use engines::input::Input;
 
@@ -80,7 +80,7 @@ impl Movement {
 			controlled.position = original_position;
 		}
 
-		let mut spawn_hadouken = false;
+		let mut spawn_hadouken = None;
 		{
 			let controlled = &mut entities[controlled_id];
 			if let Some(ref mut character_graphics) = controlled.character_graphics {
@@ -89,18 +89,19 @@ impl Movement {
 				}
 
 				if inputstate.is_pressed(Keyboard(Key::T)) {
-					spawn_hadouken = true;
+					spawn_hadouken = Some (controlled.position);
 				}
 			}
 		}
 
-		if spawn_hadouken {
+		if let Some (hadouken_position) = spawn_hadouken {
 			let hadouken_textures = vec![Texture::from_path(asset_path("bitmaps/ryu/hadouken-ball-1.gif").as_path()).unwrap()];
 			let hadouken_ball = Entity {
 				id: 4,
-				position: [-0.0,-0.0],
+				position: hadouken_position,
 				rotation: 0.0,
-				direction: Direction::Left,
+				direction: Direction::Right,
+				movement_type: MovementType::Hadouken,
 				physical_boundary: None,
 				character_graphics: Some (CharacterGraphics::new(
 					vec![
@@ -109,6 +110,13 @@ impl Movement {
 				))
 			};
 			entities.push(hadouken_ball);
+		}
+
+		for e in entities.iter_mut() {
+			match e.movement_type {
+				MovementType::Hadouken => e.position[0] += 1.5,
+				_ => ()
+			}
 		}
 	}
 

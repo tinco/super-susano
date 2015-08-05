@@ -15,7 +15,7 @@ pub mod assets;
 use piston::input::*;
 use piston_window::{ PistonWindow, WindowSettings, Size };
 
-use components::entity::{Entity,Direction, Boundary};
+use components::entity::{Entity,Direction, Boundary, MovementType};
 use components::character_graphics::{CharacterGraphics,AnimatedSprite};
 use assets::{asset_path};
 use opengl_graphics::{OpenGL, Texture};
@@ -91,7 +91,8 @@ fn main() {
 				vec![
 					AnimatedSprite::new(stage_background, 0.1667)
 				]
-			))
+			)),
+			movement_type: MovementType::NoMovement
 		},
 		Entity {
 			id: 1,
@@ -108,7 +109,8 @@ fn main() {
 			physical_boundary: Some (Boundary::Rectangle {
 				width: 45.0,
 				height: 80.0
-			})
+			}),
+			movement_type: MovementType::PlayerCharacter
 		},
 		Entity {
 			id: 2,
@@ -125,7 +127,8 @@ fn main() {
 			physical_boundary: Some (Boundary::Rectangle {
 				width: 45.0,
 				height: 80.0
-			})
+			}),
+			movement_type: MovementType::NPCCharacter
 		}
 	];
 
