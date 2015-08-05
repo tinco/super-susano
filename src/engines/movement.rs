@@ -59,27 +59,6 @@ impl Movement {
 			}
 		}
 
-
-		let mut collided = false;
-		{
-			let controlled = &entities[controlled_id];
-
-			for n in (0..entities.len()) {
-				if n != controlled_id {
-					let other_entity = &entities[n];
-					if overlaps_with(controlled, other_entity) {
-						collided = true;
-						break;
-					}
-				}
-			}
-		}
-
-		if collided {
-			let controlled = &mut entities[controlled_id];
-			controlled.position = original_position;
-		}
-
 		let mut spawn_hadouken = None;
 		{
 			let controlled = &mut entities[controlled_id];
@@ -98,11 +77,14 @@ impl Movement {
 			let hadouken_textures = vec![Texture::from_path(asset_path("bitmaps/ryu/hadouken-ball-1.gif").as_path()).unwrap()];
 			let hadouken_ball = Entity {
 				id: 4,
-				position: hadouken_position,
+				position: [hadouken_position[0] + 100.0,hadouken_position[1] - 10.0],
 				rotation: 0.0,
 				direction: Direction::Right,
 				movement_type: MovementType::Hadouken,
-				physical_boundary: None,
+				physical_boundary: Some (Boundary::Rectangle {
+					width: 10.0,
+					height: 10.0
+				}),
 				character_graphics: Some (CharacterGraphics::new(
 					vec![
 						AnimatedSprite::new(hadouken_textures, 0.1667)
@@ -112,11 +94,32 @@ impl Movement {
 			entities.push(hadouken_ball);
 		}
 
-		for e in entities.iter_mut() {
-			match e.movement_type {
-				MovementType::Hadouken => e.position[0] += 1.5,
-				_ => ()
+		{
+			for e in entities.iter_mut() {
+				match e.movement_type {
+					MovementType::Hadouken => e.position[0] += 1.5,
+					_ => ()
+				}
 			}
+		}
+
+		let mut collisions : Vec<[i64;2]> = Vec::new();		
+		{
+			let immut_entities = &*entities;
+			for e in immut_entities {
+				for e2 in immut_entities {
+					if e != e2 {
+						if overlaps_with(e, e2) {
+							collisions.push([e.id, e2.id]);
+						}
+					}
+				}
+			}
+		}
+
+		{
+			let mut collision_firsts = collisions.iter().map(|&x| x[0]);
+			entities.retain(|e| e.movement_type != MovementType::Hadouken || !collision_firsts.any(|c| c == e.id));
 		}
 	}
 

@@ -1,5 +1,6 @@
 use components::character_graphics::*;
 
+#[derive(PartialEq, Eq)]
 pub enum MovementType {
 	Hadouken,
 	PlayerCharacter,
