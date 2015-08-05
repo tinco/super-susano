@@ -6,6 +6,10 @@ use engines::input::Input;
 use piston::input::Button::*;
 use piston::input::keyboard::Key;
 
+use assets::{asset_path};
+use opengl_graphics::{OpenGL, Texture};
+use components::character_graphics::{CharacterGraphics,AnimatedSprite};
+
 pub struct Movement;
 
 impl Movement {
@@ -25,20 +29,20 @@ impl Movement {
 			for btn in &inputstate.held_buttons {
 				match btn {
 					&Keyboard(Key::W) => {
-						controlled.position[1] -= 100.0 * args.dt;
+						controlled.position[1] -= 1.5;
 						walking = true;
 					},
 					&Keyboard(Key::S) => {
-						controlled.position[1] += 100.0 * args.dt;
+						controlled.position[1] += 1.5;
 						walking = true;
 					},
 					&Keyboard(Key::A) => {
-						controlled.position[0] -= 100.0 * args.dt;
+						controlled.position[0] -= 1.5;
 						controlled.direction = Direction::Left;
 						walking = true;		
 					},
 					&Keyboard(Key::D) => {
-						controlled.position[0] += 100.0 * args.dt;
+						controlled.position[0] += 1.5;
 						controlled.direction = Direction::Right;
 						walking = true;		
 					},
@@ -76,20 +80,41 @@ impl Movement {
 			controlled.position = original_position;
 		}
 
+		let mut spawn_hadouken = false;
 		{
 			let controlled = &mut entities[controlled_id];
 			if let Some(ref mut character_graphics) = controlled.character_graphics {
 				if inputstate.is_pressed(Keyboard(Key::F)) {
 					character_graphics.start_animation(AnimationIndex::Punch);
 				}
+
+				if inputstate.is_pressed(Keyboard(Key::T)) {
+					spawn_hadouken = true;
+				}
 			}
+		}
+
+		if spawn_hadouken {
+			let hadouken_textures = vec![Texture::from_path(asset_path("bitmaps/ryu/hadouken-ball-1.gif").as_path()).unwrap()];
+			let hadouken_ball = Entity {
+				id: 4,
+				position: [-0.0,-0.0],
+				rotation: 0.0,
+				direction: Direction::Left,
+				physical_boundary: None,
+				character_graphics: Some (CharacterGraphics::new(
+					vec![
+						AnimatedSprite::new(hadouken_textures, 0.1667)
+					]
+				))
+			};
+			entities.push(hadouken_ball);
 		}
 	}
 
 	pub fn new() -> Movement {
 		// Create a new game and run it.
 		let movement = Movement;
-
 		return movement;
 	}
 }

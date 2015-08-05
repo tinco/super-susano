@@ -24,11 +24,11 @@ impl CharacterGraphics {
 		};
 	}
 
-	pub fn update(&mut self, dt: f64) {
+	pub fn update(&mut self) {
 		let start_idle;
 		{
 			let animation = self.active_animation_mut();
-			animation.update(dt);
+			animation.update();
 			start_idle = animation.done;
 		}
 
@@ -87,8 +87,8 @@ impl AnimatedSprite {
 		};
 	}
 
-	pub fn update(&mut self, dt: f64) {
-		self.start_time = self.start_time + dt;
+	pub fn update(&mut self) {
+		self.start_time = self.start_time + (1.0 / 60.0);
 
 		if self.start_time >= self.speed {
 			self.frame = self.frame + 1;

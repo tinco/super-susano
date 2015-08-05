@@ -11,7 +11,7 @@ impl Graphics {
 	pub fn update(&mut self, args: &UpdateArgs, entities:&mut Vec<Entity>) {
 		for entity in entities.iter_mut() {
 			if let Some(ref mut character_graphics) = entity.character_graphics {
-				character_graphics.update(args.dt);
+				character_graphics.update();
 			}
 		}
 	}

@@ -12,7 +12,6 @@ name = "super-susano"
 
 [dependencies]
 image = "*"
-
 piston = "*"
 piston_window = "*"
 piston2d-graphics = "*"
@@ -26,3 +25,4 @@ git = "https://github.com/PistonDevelopers/sdl2_game_window"
 
 [dependencies.gl]
 git = "https://github.com/bjz/gl-rs"
+

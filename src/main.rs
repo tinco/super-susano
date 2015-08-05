@@ -27,7 +27,7 @@ fn main() {
 	).exit_on_esc(true);
 
 	// Create an SDL window.
-	let window: PistonWindow = window_settings.exit_on_esc(true).into();
+	let window: PistonWindow = window_settings.exit_on_esc(true).build().unwrap();
 
 	let stage_background = vec![
 		Texture::from_path(asset_path("bitmaps/background-1.jpg").as_path()).unwrap()
@@ -134,6 +134,8 @@ fn main() {
 	let mut graphics_engine = engines::graphics::Graphics::new(opengl);
 	let mut movement_engine = engines::movement::Movement::new();
 	let mut input_engine = engines::input::Input::new();
+	let mut rest_time = 0.0;
+	let speed = 1.0/60.0;
 
 	for e in window {
 		if let Some(r) = e.render_args() {
@@ -141,9 +143,15 @@ fn main() {
 		}
 
 		if let Some(u) = e.update_args() {
-			input_engine.update();
-			movement_engine.update(&u, &mut rectangles, &input_engine);
-			graphics_engine.update(&u, &mut rectangles);
+			let mut dt = u.dt + rest_time;
+
+			while dt >= speed {
+				input_engine.update();
+				movement_engine.update(&u, &mut rectangles, &input_engine);
+				graphics_engine.update(&u, &mut rectangles);
+				dt -= speed;
+			}
+			rest_time = dt;
 		}
 
 		if let Some(p) = e.press_args() {
