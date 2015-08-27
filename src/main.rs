@@ -23,14 +23,20 @@ use opengl_graphics::{OpenGL, Texture};
 fn main() {
 	let window_settings = WindowSettings::new(
 		"Super Susano".to_string(),
-		Size { width: 800, height: 400 }
+		Size { width: 1280, height: 720 }
 	).exit_on_esc(true);
 
 	// Create an SDL window.
 	let window: PistonWindow = window_settings.exit_on_esc(true).build().unwrap();
 
-	let stage_background = vec![
-		Texture::from_path(asset_path("bitmaps/background-1.jpg").as_path()).unwrap()
+	let stage_background1 = vec![
+		Texture::from_path(asset_path("bitmaps/background-2.png").as_path()).unwrap()
+	];
+	let stage_background2 = vec![
+		Texture::from_path(asset_path("bitmaps/background-2.png").as_path()).unwrap()
+	];
+	let stage_background3 = vec![
+		Texture::from_path(asset_path("bitmaps/background-2.png").as_path()).unwrap()
 	];
 
 	let ryu_idle = vec![
@@ -83,13 +89,39 @@ fn main() {
 	let mut rectangles = vec![
 		Entity {
 			id: 3,
-			position: [-0.0,-130.0],
+			position: [0.0,-360.0],
 			rotation: 0.0,
 			direction: Direction::Left,
 			physical_boundary: None,
 			character_graphics: Some (CharacterGraphics::new(
 				vec![
-					AnimatedSprite::new(stage_background, 0.1667)
+					AnimatedSprite::new(stage_background1, 0.1667)
+				]
+			)),
+			movement_type: MovementType::NoMovement
+		},
+		Entity {
+			id: 4,
+			position: [1280.0,-360.0],
+			rotation: 0.0,
+			direction: Direction::Left,
+			physical_boundary: None,
+			character_graphics: Some (CharacterGraphics::new(
+				vec![
+					AnimatedSprite::new(stage_background2, 0.1667)
+				]
+			)),
+			movement_type: MovementType::NoMovement
+		},
+		Entity {
+			id: 5,
+			position: [-1280.0,-360.0],
+			rotation: 0.0,
+			direction: Direction::Left,
+			physical_boundary: None,
+			character_graphics: Some (CharacterGraphics::new(
+				vec![
+					AnimatedSprite::new(stage_background3, 0.1667)
 				]
 			)),
 			movement_type: MovementType::NoMovement
@@ -132,28 +164,30 @@ fn main() {
 		}
 	];
 
-
 	let opengl = OpenGL::V3_3;
 	let mut graphics_engine = engines::graphics::Graphics::new(opengl);
 	let mut movement_engine = engines::movement::Movement::new();
 	let mut input_engine = engines::input::Input::new();
+	let mut camera_engine = engines::camera::Camera::new();
 	let mut rest_time = 0.0;
 	let speed = 1.0/60.0;
 
 	for e in window {
 		if let Some(r) = e.render_args() {
-			graphics_engine.render(&r, &rectangles);
+			camera_engine.render(&r, &rectangles);
+			graphics_engine.render(&r, &rectangles, &camera_engine);
 		}
 
 		if let Some(u) = e.update_args() {
 			let mut dt = u.dt + rest_time;
-
+			
+			input_engine.update();
 			while dt >= speed {
-				input_engine.update();
 				movement_engine.update(&u, &mut rectangles, &input_engine);
-				graphics_engine.update(&u, &mut rectangles);
 				dt -= speed;
 			}
+			graphics_engine.update(&u, &mut rectangles);
+			camera_engine.update(&u, &mut rectangles);
 			rest_time = dt;
 		}
 

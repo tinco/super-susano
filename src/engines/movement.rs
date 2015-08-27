@@ -19,11 +19,11 @@ impl Movement {
 		entities: &mut Vec<Entity>,
 		inputstate: &Input
 	) {
-		let controlled_id = 1;
-		let original_position = entities[controlled_id].position;
+		let controlled_id: i64 = 1;
+		let original_position = entities.iter().find(|&e| e.id == controlled_id).unwrap().position;
 		
 		{
-			let controlled = &mut entities[controlled_id];
+			let controlled = entities.iter_mut().find(|e| e.id == controlled_id).unwrap();
 			let mut walking = false;
 
 			for btn in &inputstate.held_buttons {
@@ -61,7 +61,7 @@ impl Movement {
 
 		let mut spawn_hadouken = None;
 		{
-			let controlled = &mut entities[controlled_id];
+			let controlled = entities.iter_mut().find(|e| e.id == controlled_id).unwrap();
 			if let Some(ref mut character_graphics) = controlled.character_graphics {
 				if inputstate.is_pressed(Keyboard(Key::F)) {
 					character_graphics.start_animation(AnimationIndex::Punch);

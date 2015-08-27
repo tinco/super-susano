@@ -2,6 +2,7 @@ use piston::input::{RenderArgs,UpdateArgs};
 use opengl_graphics::{GlGraphics, OpenGL};
 use image::GenericImage;
 use components::entity::{Entity,Direction};
+use engines::camera::Camera;
 
 pub struct Graphics {
 	gl: GlGraphics // OpenGL drawing backend.
@@ -16,7 +17,7 @@ impl Graphics {
 		}
 	}
 
-	pub fn render(&mut self, args: &RenderArgs, entities:&Vec<Entity>) {
+	pub fn render(&mut self, args: &RenderArgs, entities:&Vec<Entity>, camera: &Camera) {
 		//const GREEN: [f32; 4] = [11.0/256.0, 178.0/256.0, 12.0/256.0, 1.0];
 		const BLACK: [f32; 4] = [0.0/256.0, 0.0/256.0, 0.0/256.0, 1.0];
 
@@ -38,6 +39,7 @@ impl Graphics {
 					let transform = c.transform
 						.trans(if flipped { x + half_width } else { x - half_width }, y)
 						.trans(entity.position[0], entity.position[1])
+						.trans(-camera.position[0], -camera.position[1])
 						.scale(if flipped { - 1.0 } else { 1.0 },1.0);
 					animation.image.draw(&animation.textures[animation.frame], default_draw_state(), transform, gl);
 				}
