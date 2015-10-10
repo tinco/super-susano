@@ -27,7 +27,7 @@ fn main() {
 	).exit_on_esc(true);
 
 	// Create an SDL window.
-	let window: PistonWindow = window_settings.exit_on_esc(true).build().unwrap();
+	let window: PistonWindow = window_settings.build().unwrap();
 
 	let stage_background1 = vec![
 		Texture::from_path(asset_path("bitmaps/background-2.png").as_path()).unwrap()
